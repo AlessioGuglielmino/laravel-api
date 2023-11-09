@@ -17,7 +17,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-       $projects = Project::select( "id","title", "description","slug","url,type_id")->with('type', 'technologies')->paginate(6);
+       $projects = Project::select( "id","title", "description","slug","url")->with( 'technologies')->paginate(6);
        return response()->json($projects);
     }
 
@@ -38,15 +38,15 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
         $project = Project::select("id", "slug", "type_id", "title", "description", "url")
-            ->where('slug', $slug)
-            ->with('type', 'technologies')
+            ->where('id', $id)
+            ->with('technologies')
             ->first();
         return response()->json($project);
     }
-}
+
 
     /**
      * Update the specified resource in storage.
